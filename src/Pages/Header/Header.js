@@ -1,8 +1,18 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../Context/UserContext";
 
 const Header = () => {
-  const user = false;
+  const navigate = useNavigate();
+  const { user, logOut } = useContext(AuthContext);
+  const handleLogout = () => {
+    logOut()
+      .then(() => {
+        navigate("/login");
+      })
+      .catch(() => {});
+  };
   const menuItems = (
     <>
       <li>
@@ -12,7 +22,13 @@ const Header = () => {
         <Link to="/orders">Orders</Link>
       </li>
 
-      {!user ? (
+      {user?.email ? (
+        <Link>
+          <button className="btn btn-ghost" onClick={handleLogout}>
+            Log Out
+          </button>
+        </Link>
+      ) : (
         <>
           <li>
             <Link to="/login">Login</Link>
@@ -21,10 +37,6 @@ const Header = () => {
             <Link to="/register">Registration</Link>
           </li>
         </>
-      ) : (
-        <Link>
-          <button className="btn btn-ghost">Log Out</button>
-        </Link>
       )}
     </>
   );
@@ -56,7 +68,7 @@ const Header = () => {
             {menuItems}
           </ul>
         </div>
-        <a className="btn btn-ghost normal-case text-xl">My-Shop</a>
+        <Link className="btn btn-ghost normal-case text-xl">MyShop</Link>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal p-0">{menuItems}</ul>
