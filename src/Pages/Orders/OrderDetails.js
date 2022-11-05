@@ -2,11 +2,16 @@ import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 
-const OrderDetails = ({ order, index }) => {
+const OrderDetails = ({
+  order,
+  index,
+  handleDeleteOrderProduct,
+  handleUpdateOrderProduct,
+}) => {
   const { _id, customerName, phone, prodId, productName, price, status } =
     order;
   const [orderProduct, setOrderProduct] = useState([]);
-
+  const [isDisable, setIsDisable] = useState(false);
   useEffect(() => {
     fetch(`http://localhost:5000/product/${prodId}`)
       .then((res) => res.json())
@@ -38,8 +43,23 @@ const OrderDetails = ({ order, index }) => {
       </td>
       <td>{status}</td>
       <th className="flex gap-2">
-        <button className="btn btn-outline btn-success">Confirm</button>
-        <button className="btn btn-error">Delete</button>
+        {status === "Pending" && (
+          <>
+            <button
+              className="btn btn-outline btn-success"
+              onClick={() => handleUpdateOrderProduct(_id)}
+              disabled={isDisable}
+            >
+              Confirm
+            </button>
+            <button
+              className="btn btn-error"
+              onClick={() => handleDeleteOrderProduct(_id)}
+            >
+              Delete
+            </button>
+          </>
+        )}
       </th>
     </tr>
   );
