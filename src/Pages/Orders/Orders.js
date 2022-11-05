@@ -10,7 +10,11 @@ const Orders = () => {
   const [storedOrders, setStoredOrders] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/orders?email=${user?.email}`)
+    fetch(`http://localhost:5000/orders?email=${user?.email}`, {
+      headers: {
+        authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
       .then((res) => res.json())
       .then((data) => setStoredOrders(data));
   }, [user?.email]);
@@ -46,9 +50,9 @@ const Orders = () => {
       .then((data) => {
         if (data.modifiedCount > 0) {
           alert("Confirm your order");
-          fetch(`http://localhost:5000/orders?email=${user?.email}`)
-            .then((res) => res.json())
-            .then((data) => setStoredOrders(data));
+          // fetch(`http://localhost:5000/orders?email=${user?.email}`)
+          //   .then((res) => res.json())
+          //   .then((data) => setStoredOrders(data));
         }
       });
   };

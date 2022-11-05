@@ -10,7 +10,7 @@ const Product = ({ product }) => {
       </figure>
       <div className="card-body">
         <h2 className="card-title">{name}</h2>
-        <p>$ {price}</p>
+        <p>Price: ${price}</p>
         <div className="card-actions justify-end">
           <Link to={`/checkout/${_id}`}>
             <button className="btn btn-primary">Buy Now</button>
