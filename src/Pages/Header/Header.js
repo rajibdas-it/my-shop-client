@@ -73,9 +73,11 @@ const Header = () => {
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal p-0">{menuItems}</ul>
       </div>
-      <div className="navbar-end">
-        <a className="btn">Get started</a>
-      </div>
+      {user?.email && (
+        <div className="navbar-end">
+          <Link className="btn">{user?.email}</Link>
+        </div>
+      )}
     </div>
   );
 };
